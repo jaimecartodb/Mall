@@ -1,7 +1,11 @@
 require_relative "/Users/jaimedemora/Ironhack/Week3/Mall/mall.rb"
-fruit = Mall::Item.new("fruit", 20, 5)
-salad = Mall::Item.new("salad", 38, 5)
-cart1 = Mall::ShoppingCart.new
-cart1.add_new_item(fruit)
-cart1.add_new_item(salad)
-puts cart1.checkout
+
+warehouse = TheMall::Warehouse.new
+
+initial_stock = []
+2.times{|n| initial_stock << TheMall::Item.new("Fish", 10) << TheMall::Item.new("Meat", 20) << TheMall::Fruit.new("Orange", 2) << TheMall::Houseware.new("Vacuum", 150)}
+metropolis = TheMall::Shop.new("Metropolis", 2000, warehouse, TheMall::ShoppingCart)
+metropolis.add_items_to_stock(initial_stock)
+
+metropolis.receive_new_visit
+metropolis.display_stock
