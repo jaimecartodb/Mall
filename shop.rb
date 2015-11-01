@@ -8,8 +8,8 @@ module Mall
 			@stock = []
 		end
 
-		def add_item_to_stock(items)
-			@items.each {|item| @stock << item}
+		def add_items_to_stock(items)
+			items.each {|item| @stock << item}
 		end
 
 		def receive_new_visit
@@ -29,7 +29,7 @@ module Mall
 		def ask_wanna_buy
 			item = ask_for_item
 			quantity = ask_for_quantity
-			@shopping_cart.add_item_to_cart(item, quantity)
+    		@shopping_cart.add_new_item(item, quantity)
 			ask_wanna_buy unless checkout?
 		end
 
@@ -48,19 +48,25 @@ module Mall
 			@stock.find{|item| item.name == item_name}
 		end
 
+	    def proceed_to_checkout
+	      @shopping_cart.checkout
+	      update_stock_after_checkout
+	      destroy_shopping_cart
+	    end		
+
 		def checkout?
 			puts "Do you want to proceed to checkout? Y/N"
 			user_input = gets.chomp
 			user_input == "Y" ? true : false
 		end
 
-		def update_stock_after_checkout
-			@shopping_cart.items.each do |item|
-				stock_item = @stock.find {|stock_item| stock_item.genre == item.genre}
-				@stock.delete.at(@stock.index(stock_item)) if stock_item
-				order_item(item) if low_item_stock?(item)
-			end
-		end
+	    def update_stock_after_checkout
+	      @shopping_cart.items.each do |item|
+	        stock_item = @stock.find {|stock_item| stock_item.genre == item.genre}
+	        @stock.delete_at(@stock.index(stock_item)) if stock_item
+	        order_item(item) if low_item_stock?(item)      
+	      end
+	    end
 
 	    def destroy_shopping_cart
 	      @shopping_cart = nil

@@ -1,5 +1,7 @@
 module Mall
 
+	require 'Date'
+
 	class Item
 
 		attr_reader :name, :price
@@ -34,7 +36,7 @@ module Mall
 	class Fruit < Item
 		def apply_discount
 			today = Date.today
-			(today.saturyda? || today.sunday?) ? (@price - @price / 10) : @price
+			(today.saturday? || today.sunday?) ? (@price - @price / 10) : @price
 		end
 	end
 
